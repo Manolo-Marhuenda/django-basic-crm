@@ -1,0 +1,20 @@
+# Archivos y carpetas del entorno virtual
+crm_env/
+venv/
+*.pyc
+__pycache__/
+
+# Base de datos
+db.sqlite3
+
+# Configuraciones de entorno (¡MUY IMPORTANTE!)
+*.env
+.idea/
+.vscode/
+
+# Media y archivos estáticos (si los usas, es mejor no versionarlos)
+/media
+/static_root
+
+# Secretos de Django
+/crm_project/settings/local.py # Si usas settings separadas
