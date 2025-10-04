@@ -16,13 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from crm_project.views import HomeView, LoginView, RegisterView, LegalView, logout_view
+from crm_project.views import HomeView, LoginView, RegisterView, LegalView, logout_view, contacto, DashboardView, CompanyDetailView
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
+    path('contact/', contacto, name='contact'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('companias/', CompanyDetailView.as_view(), name='lista_companias'),
     path('legal/', LegalView.as_view(), name='legal'),
     path('admin/', admin.site.urls),
 ]

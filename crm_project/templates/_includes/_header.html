@@ -7,6 +7,7 @@
                 {% if not request.user.is_authenticated %}
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Registrarse</a></li>
+                    <li><a href="{% url 'contact' %}">Contacto</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
