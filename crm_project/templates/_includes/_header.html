@@ -10,6 +10,7 @@
                     <li><a href="{% url 'contact' %}">Contacto</a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
                 {% endif %}
             </ul>

@@ -8,11 +8,11 @@
     {% include '_includes/_menssages.html' %}
     <h2>¿Qué deseas hacer ahora?</h2>
 
-        <a href="" class="btn btn-primary btn-sm">
+        <a href="{% url 'lista_companias' %}" class="btn btn-primary btn-sm">
             Ver Listado de Compañías
         </a>
 
-        <a href="" class="btn btn-primary btn-sm">
+        <a href="{% url 'crear_compania' %}" class="btn btn-primary btn-sm">
             Dar de Alta una Nueva Compañía
         </a>    
 </div>

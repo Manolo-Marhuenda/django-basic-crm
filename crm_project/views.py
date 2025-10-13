@@ -100,8 +100,3 @@ class DashboardView(TemplateView):
     template_name = 'general/dashboard.html'
 
 
-@method_decorator(login_required, name='dispatch')
-class CompanyDetailView(DetailView):
-    template_name = 'general/companis/lista_companias.html'
-    model = Company
-    context_object_name = 'company'
