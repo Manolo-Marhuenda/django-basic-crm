@@ -36,8 +36,8 @@
                         <td>{{ company.phone }}</td>
                         <td>{{ company.email }}</td>
                         <td class="text-center">
-                            <a href="" class="btn btn-sm btn-info me-2" title="Ver Detalle">
-                                <i class="bi bi-eye"></i> Ver
+                            <a href="{% url 'detail_compania' company.pk %}" class="btn btn-sm btn-info me-2" title="Ver Detalle">
+                                <i class="bi bi-eye"></i> Detalle
                             </a> 
                             <a href="" class="btn btn-sm btn-warning" title="Editar Compañía">
                                 <i class="bi bi-pencil"></i> Editar

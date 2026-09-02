@@ -27,6 +27,7 @@ urlpatterns = [
     path('contact/', contacto, name='contact'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('Company/create/', CompanyCreateView.as_view(), name='crear_compania'),
+    path('Company/<int:pk>/', CompanyDetailView.as_view(), name='detail_compania'),
     path('Company/', CompanyListView.as_view(), name='lista_companias'),
     path('legal/', LegalView.as_view(), name='legal'),
     path('admin/', admin.site.urls),

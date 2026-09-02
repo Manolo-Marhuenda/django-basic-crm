@@ -22,24 +22,13 @@ class CompanyCreateView(CreateView):
         return super(CompanyCreateView, self).form_valid(form)
     
 @method_decorator(login_required, name='dispatch')
-class CompanyDetailView(DetailView, CreateView):
-    template_name = 'general/companis/lista_companias.html'
+class CompanyDetailView(DetailView):
+    template_name = 'general/companis/detail_compania.html'
     model = Company
-    form_class= CompanyForm
     context_object_name = 'company'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.instance.reloj = self.get_object()
-        return super(CompanyDetailView, self).form_valid(form)
     
 class CompanyListView(ListView):
-    # 1. Especifica el modelo que quieres listar
     model = Company
-    
-    # 2. Especifica el nombre del template a usar
     template_name = 'general/companis/lista_companias.html'
-    
-    # 3. Opcional: Nombre de la variable de contexto que contendrá la lista
-    # Por defecto es 'object_list', pero 'companies' es más claro.
     context_object_name = 'companies'
