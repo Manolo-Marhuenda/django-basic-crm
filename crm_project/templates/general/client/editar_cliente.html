@@ -1,0 +1,39 @@
+{% extends 'general/layout.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block head_title %}Editar Cliente - CMR-Basic{% endblock %}
+
+{% block page_content %}
+
+<div class="container mt-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Editar Cliente: {{ client.first_name }} {{ client.last_name }}</h1>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6">
+                {{ form.first_name|as_crispy_field }}
+                {{ form.last_name|as_crispy_field }}
+                {{ form.email|as_crispy_field }}
+                {{ form.phone|as_crispy_field }}
+                {{ form.company|as_crispy_field }}
+                {{ form.assigned_commercials|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Guardar Cambios
+            </button>
+            <a href="{% url 'detail_cliente' client.pk %}" class="btn btn-outline-secondary ms-2">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

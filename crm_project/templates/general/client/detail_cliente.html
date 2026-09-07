@@ -2,34 +2,49 @@
 
 {% load crispy_forms_tags %}
 
-{% block head_title %}Bienvenido a CMR-Basic{% endblock %}
+{% block head_title %}{{ client.first_name }} {{ client.last_name }} - CMR-Basic{% endblock %}
 
 {% block page_content %}
 
 <div class="container mt-4">
+    {% include '_includes/_menssages.html' %}
+    
     <!-- Encabezado con Botones de Acción -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h2 mb-1">{{ client.first_name }} {{ client.last_name }}</h1>
-            <span class="badge bg-secondary">email: {{ client.email }}</span>
-            <span class="badge bg-secondary">phone: {{ client.phone }}</span>
+            {% if client.company %}
+                <span class="badge bg-primary fs-6">
+                    <i class="bi bi-building"></i> {{ client.company.name }}
+                </span>
+            {% endif %}
         </div>
         <div>
-            <a href="{% url 'lista_companias' %}" class="btn btn-outline-secondary me-2">
-                <i class="bi bi-arrow-left"></i> Volver al listado
-            </a>
-            <a href="" class="btn btn-warning me-2">
+            <!-- Botón Principal para Iniciar Interacción (Abre Modal) -->
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#modalInteraccion">
+                <i class="bi bi-telephone-outbound me-1"></i> Iniciar Interacción
+            </button>
+            
+            <a href="{% url 'editar_cliente' client.pk %}" class="btn btn-warning me-2">
                 <i class="bi bi-pencil"></i> Editar
             </a>
-            <a href="" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Eliminar
+            
+            <form action="{% url 'delete_client' client.pk %}" method="post" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+            
+            <a href="{% url 'lista_companias' %}" class="btn btn-outline-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>
     </div>
 
-    <!-- Tarjeta Principal con Información -->
     <div class="row">
-        <div class="col-md-8">
+        <!-- Columna Izquierda: Información del Cliente -->
+        <div class="col-lg-5">
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-white">
                     <h5 class="card-title mb-0">Información General</h5>
@@ -55,20 +70,25 @@
                         </div>
 
                         <div class="col-12">
-                            <strong class="text-muted d-block">Comercial</strong>
-                            {% if client.commercial %}
-                                <span>{{ client.commercial }}</span>
+                            <strong class="text-muted d-block">Comerciales Asignados</strong>
+                            {% if client.assigned_commercials.all %}
+                                <ul class="list-unstyled mb-0 mt-1">
+                                    {% for commercial in client.assigned_commercials.all %}
+                                        <li class="mb-1">
+                                            <i class="bi bi-person-badge text-secondary me-1"></i> 
+                                            {{ commercial.get_full_name|default:commercial.username }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
                             {% else %}
-                                <span class="text-muted fs-7"><em>No especificada</em></span>
+                                <span class="text-muted fs-7"><em>No tiene comerciales asignados</em></span>
                             {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Panel Lateral: Metadatos e Historial -->
-        <div class="col-md-4">
+            <!-- Detalle del Registro -->
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-white">
                     <h5 class="card-title mb-0">Detalles del Registro</h5>
@@ -84,6 +104,78 @@
                     </li>
                 </ul>
             </div>
+        </div>
+
+        <!-- Columna Derecha: Historial Únicamente -->
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0"><i class="bi bi-journal-text me-1"></i> Historial de Actividad</h5>
+                    <span class="badge bg-light text-dark border">{{ client.interactions.count }} registros</span>
+                </div>
+                <div class="card-body">
+                    {% if client.interactions.all %}
+                        <div class="list-group list-group-flush">
+                            {% for interaction in client.interactions.all %}
+                                <div class="list-group-item px-0 py-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="badge bg-secondary">
+                                            {{ interaction.get_type_display }}
+                                        </span>
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar3 me-1"></i>{{ interaction.interaction_date|date:"d/m/Y" }} — 
+                                            <i class="bi bi-person me-1"></i><strong>{{ interaction.commercial.get_full_name|default:interaction.commercial.username }}</strong>
+                                        </small>
+                                    </div>
+                                    <p class="mb-0 text-break text-dark">{{ interaction.notes }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-chat-left-dots text-muted fs-1 d-block mb-2"></i>
+                            <p class="text-muted mb-0">No hay interacciones registradas para este cliente.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Iniciar Interacción -->
+<div class="modal fade" id="modalInteraccion" tabindex="-1" aria-labelledby="modalInteraccionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalInteraccionLabel"><i class="bi bi-plus-circle text-primary me-1"></i> Nueva Interacción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'crear_interaccion' client.pk %}" method="post">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Tipo</label>
+                            {{ interaction_form.type }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Fecha</label>
+                            {{ interaction_form.interaction_date }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Notas / Resumen</label>
+                        {{ interaction_form.notes }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save me-1"></i> Guardar Registro
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
