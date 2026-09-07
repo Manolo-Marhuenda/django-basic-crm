@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from crm_project.views import HomeView, LoginView, RegisterView, LegalView, logout_view, contacto, DashboardView
-from management.views import CompanyCreateView, CompanyDetailView, CompanyListView
+from management.views import CompanyListView, CompanyDetailView, ClienteCreateView, ClientDetailView
+
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -26,9 +27,11 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('contact/', contacto, name='contact'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
-    path('Company/create/', CompanyCreateView.as_view(), name='crear_compania'),
-    path('Company/<int:pk>/', CompanyDetailView.as_view(), name='detail_compania'),
     path('Company/', CompanyListView.as_view(), name='lista_companias'),
+    path('Company/<int:pk>/', CompanyDetailView.as_view(), name='detail_companias'),
+    path('Client/create/', ClienteCreateView.as_view(), name='crear_cliente'),
+    path('Client/<int:pk>/', ClientDetailView.as_view(), name='detail_cliente'),
+    # path('Company/<int:pk>/edit/', CompanyUpdateView.as_view(), name='editar_compania'),
     path('legal/', LegalView.as_view(), name='legal'),
     path('admin/', admin.site.urls),
 ]

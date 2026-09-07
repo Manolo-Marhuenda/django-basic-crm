@@ -8,19 +8,19 @@
 
 <div class="container">
     {% include '_includes/_menssages.html' %}
-    <h1>Nueva Compañia</h1>
+    <h1>Nuevo Cliente</h1>
     <form action="" method="post">
         {% csrf_token %}
         <div class="row">
             <div class="col-12 col-sm-6">
-                {{form.name|as_crispy_field}}
-                {{form.cif|as_crispy_field}}
-                {{form.address|as_crispy_field}}
-                {{form.phone|as_crispy_field}}
+                {{form.first_name|as_crispy_field}}
+                {{form.last_name|as_crispy_field}}
                 {{form.email|as_crispy_field}}
+                {{form.phone|as_crispy_field}}
+                {{form.company|as_crispy_field}}
             </div>
         </div>
-        <button class="btn btn-secondary">Nueva Compañia</button>
+        <button class="btn btn-secondary">Crear Cliente</button>
     </form>
 </div>
 

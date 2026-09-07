@@ -10,8 +10,9 @@
     <!-- Encabezado con Botones de Acción -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h2 mb-1">{{ company.name }}</h1>
-            <span class="badge bg-secondary">CIF: {{ company.cif }}</span>
+            <h1 class="h2 mb-1">{{ client.first_name }} {{ client.last_name }}</h1>
+            <span class="badge bg-secondary">email: {{ client.email }}</span>
+            <span class="badge bg-secondary">phone: {{ client.phone }}</span>
         </div>
         <div>
             <a href="{% url 'lista_companias' %}" class="btn btn-outline-secondary me-2">
@@ -37,8 +38,8 @@
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <strong class="text-muted d-block">Teléfono</strong>
-                            {% if company.phone %}
-                                <a href="tel:{{ company.phone }}" class="text-decoration-none">{{ company.phone }}</a>
+                            {% if client.phone %}
+                                <a href="tel:{{ client.phone }}" class="text-decoration-none">{{ client.phone }}</a>
                             {% else %}
                                 <span class="text-muted fs-7"><em>No especificado</em></span>
                             {% endif %}
@@ -46,17 +47,17 @@
 
                         <div class="col-sm-6">
                             <strong class="text-muted d-block">Email</strong>
-                            {% if company.email %}
-                                <a href="mailto:{{ company.email }}" class="text-decoration-none">{{ company.email }}</a>
+                            {% if client.email %}
+                                <a href="mailto:{{ client.email }}" class="text-decoration-none">{{ client.email }}</a>
                             {% else %}
                                 <span class="text-muted fs-7"><em>No especificado</em></span>
                             {% endif %}
                         </div>
 
                         <div class="col-12">
-                            <strong class="text-muted d-block">Dirección</strong>
-                            {% if company.address %}
-                                <span>{{ company.address }}</span>
+                            <strong class="text-muted d-block">Comercial</strong>
+                            {% if client.commercial %}
+                                <span>{{ client.commercial }}</span>
                             {% else %}
                                 <span class="text-muted fs-7"><em>No especificada</em></span>
                             {% endif %}
@@ -74,12 +75,12 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span class="text-muted">Creada el:</span>
-                        <span>{{ company.created_at|date:"d/m/Y" }}</span>
+                        <span class="text-muted">Creado el:</span>
+                        <span>{{ client.created_at|date:"d/m/Y" }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span class="text-muted">Última actualización:</span>
-                        <span>{{ company.updated_at|date:"d/m/Y" }}</span>
+                        <span>{{ client.updated_at|date:"d/m/Y" }}</span>
                     </li>
                 </ul>
             </div>

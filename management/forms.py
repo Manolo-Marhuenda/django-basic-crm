@@ -1,7 +1,7 @@
 from django import forms
-from .models import Company
+from .models import Client
 
-class CompanyForm(forms.ModelForm):
+class ClientForm(forms.ModelForm):
     class Meta:
-        model = Company
-        fields = ['name', 'cif', 'address', 'phone', 'email']
+        model = Client
+        fields = ['first_name','last_name', 'email', 'phone', 'company']
