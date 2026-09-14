@@ -64,6 +64,11 @@ class ClientDetailView(DetailView):
     template_name = 'general/client/detail_cliente.html'
     model = Client
     context_object_name = 'client'
+    #para pasar el formulario de interacción al template y funcione el modal.
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['interaction_form'] = InteractionForm()
+        return context
 
 @method_decorator(login_required, name='dispatch')
 class CompanyDetailView(DetailView):
@@ -84,7 +89,7 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         # Asigna la clave primaria del cliente directamente desde la URL
-        form.instance.client_id = self.kwargs['pk']
+        form.instance.client_id = self.kwargs['client_id']
         
         # Asigna el usuario actual como el comercial
         form.instance.commercial = self.request.user
@@ -94,4 +99,4 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         # Redirige de vuelta al detalle del cliente recién actualizado
-        return reverse('detail_cliente', kwargs={'pk': self.kwargs['pk']})
+        return reverse('detail_cliente', kwargs={'pk': self.kwargs['client_id']})
