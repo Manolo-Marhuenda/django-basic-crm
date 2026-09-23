@@ -1,0 +1,36 @@
+{% extends 'general/layout.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block head_title %}Editar Interacción - CMR-Basic{% endblock %}
+
+{% block page_content %}
+
+<div class="container mt-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Editar Interacción</h1>
+    </div>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6">
+                {{ form.type|as_crispy_field }}
+                {{ form.interaction_date|as_crispy_field }}
+                {{ form.notes|as_crispy_field }}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Guardar Cambios
+            </button>
+            <a href="{% url 'detail_cliente' object.client.pk %}" class="btn btn-outline-secondary ms-2">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

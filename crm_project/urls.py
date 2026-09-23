@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from crm_project.views import HomeView, LoginView, RegisterView, LegalView, logout_view, contacto, DashboardView
-from management.views import ClienteDeleteView, ClienteUpdateView, CompanyListView, CompanyDetailView, ClienteCreateView, ClientDetailView, InteractionCreateView
+from management.views import ClienteDeleteView, ClienteUpdateView, CompanyListView, CompanyDetailView, ClienteCreateView, ClientDetailView, InteractionCreateView 
+from management.views import InteractionCreateView, InteractionDeleteView, InteractionUpdateView
 
 
 urlpatterns = [
@@ -34,6 +35,8 @@ urlpatterns = [
     path('Client/<int:pk>/edit/', ClienteUpdateView.as_view(), name='editar_cliente'),
     path('Client/<int:pk>/delete/', ClienteDeleteView.as_view(), name='delete_client'),
     path('Interaction/create/<int:client_id>/', InteractionCreateView.as_view(), name='crear_interaccion'),
+    path('Interaction/<int:pk>/delete/', InteractionDeleteView.as_view(), name='delete_interaction'),
+    path('Interaction/<int:pk>/edit/', InteractionUpdateView.as_view(), name='editar_interaccion'),
     # path('Company/<int:pk>/edit/', CompanyUpdateView.as_view(), name='editar_compania'),
     path('legal/', LegalView.as_view(), name='legal'),
     path('admin/', admin.site.urls),

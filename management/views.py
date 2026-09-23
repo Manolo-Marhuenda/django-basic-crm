@@ -100,3 +100,29 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         # Redirige de vuelta al detalle del cliente recién actualizado
         return reverse('detail_cliente', kwargs={'pk': self.kwargs['client_id']})
+
+
+class InteractionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Interaction
+
+    def get_success_url(self):
+        # Redirige de vuelta al detalle del cliente después de eliminar la interacción
+        return reverse('detail_cliente', kwargs={'pk': self.object.client.pk})
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, "Interacción eliminada correctamente.")
+        return super().post(request, *args, **kwargs)
+
+
+class InteractionUpdateView(LoginRequiredMixin, UpdateView): 
+    model = Interaction
+    form_class = InteractionForm
+    template_name = 'general/interaccion/editar_interaccion.html'
+
+    def get_success_url(self):
+        # Redirige de vuelta al detalle del cliente después de actualizar la interacción
+        return reverse('detail_cliente', kwargs={'pk': self.object.client.pk})
+
+    def form_valid(self, form):
+        messages.success(self.request, "Interacción actualizada correctamente.")
+        return super().form_valid(form)
